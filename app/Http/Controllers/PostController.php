@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -42,7 +43,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $post->load([
-            'comments' => function ($query) {
+            'comments' => function (Builder $query) {
                 $query->latest('id');
             },
             'user',
