@@ -13,10 +13,10 @@ class PostController extends Controller
      */
     public function index()
     {
+
         $posts = Post::with('comments')
             ->latest('id')
             ->paginate(5);
-
 
         return view('posts.index', compact('posts'));
     }
@@ -46,8 +46,11 @@ class PostController extends Controller
             'comments' => function (Builder $query) {
                 $query->latest('id');
             },
-            'user',
+            'comments.user',
+            'comments.replies', // get all nested replies recursively
         ]);
+
+//        return  response()->json($post);
         return view('posts.show', compact('post'));
     }
 
